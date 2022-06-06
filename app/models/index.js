@@ -45,7 +45,13 @@ db.user.belongsToMany(db.role, {
 db.user.hasOne(db.address, {
   foreignKey: "userId",
   as: "address",
-})
+  onDelete: "cascade",
+  onUpdate: "cascade"
+});
+
+db.address.belongsTo(db.user, {
+  foreignKey: "userId"
+});
 
 db.ROLES = ["user", "mod", "admin"];
 
