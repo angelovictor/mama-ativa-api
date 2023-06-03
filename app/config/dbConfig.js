@@ -5,7 +5,7 @@ module.exports = {
   "USER": `${process.env.DATABASE_USER}`,
   "PASSWORD": `${process.env.DATABASE_PASSWORD}`,
   "DB": `${process.env.DATABASE_DB}`,
-  "dialect": `${process.env.DATABASE_DIALECT}`,
+  "dialect": "mysql",
   "timezone": "-03:00",
   "pool": {
     "max": 5,
