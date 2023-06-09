@@ -5,30 +5,11 @@ const app = express();
 const cors = require("cors");
 const db = require("./app/models");
 
-/*var corsOptions = {
-  origin: "https://mamativa.herokuapp.com/"//`${process.env.APP_CORS}`
-};*/
+var corsOptions = {
+  origin: `${process.env.APP_CORS}`
+};
 
 app.use(cors(corsOptions));
-
-var whitelist = ['http://mamativa.azurewebsites.net:8080', 'https://mamativa.herokuapp.com/']
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
-
-/*app.get('/products/:id', cors(corsOptions), function (req, res, next) {
-  res.json({msg: 'This is CORS-enabled for a whitelisted domain.'})
-})*/
-
-app.listen(80, function () {
-  console.log('CORS-enabled web server listening on port 80')
-})
 
 // parse requests of content-type - application/json
 app.use(express.json({ limit: "5mb" }));
@@ -39,7 +20,7 @@ app.use(express.urlencoded({ limit: "5mb", extended: true }));
 // simple route
 app.get("/", (req, res) => {
   //res.json({ message: "Welcome to MAMA ATIVA API." });
-  res.send("Welcome to MAMA ATIVA API.");
+  res.status(404).send(" ");
 });
 
 // routes
