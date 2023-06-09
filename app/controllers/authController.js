@@ -121,7 +121,7 @@ exports.signin = (req, res) => {
       };
 
       var token = jwt.sign({ id: user.id }, config.secret, {
-        expiresIn: parseInt(process.env.TOKE_TIME_LIMIT) // 86400 24 hours || 86400 / 24hrs = 3600 1HR || 3600 / 60seg = 1MIN
+        expiresIn: parseInt(process.env.TOKEN_TIME_LIMIT) // 86400 24 hours || 86400 / 24hrs = 3600 1HR || 3600 / 60seg = 1MIN
       });
 
       var authorities = [];
