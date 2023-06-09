@@ -5,11 +5,30 @@ const app = express();
 const cors = require("cors");
 const db = require("./app/models");
 
-var corsOptions = {
-  origin: `${process.env.APP_CORS}`
-};
+/*var corsOptions = {
+  origin: "https://mamativa.herokuapp.com/"//`${process.env.APP_CORS}`
+};*/
 
 app.use(cors(corsOptions));
+
+var whitelist = ['http://mamativa.azurewebsites.net:8080', 'https://mamativa.herokuapp.com/']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+/*app.get('/products/:id', cors(corsOptions), function (req, res, next) {
+  res.json({msg: 'This is CORS-enabled for a whitelisted domain.'})
+})*/
+
+app.listen(80, function () {
+  console.log('CORS-enabled web server listening on port 80')
+})
 
 // parse requests of content-type - application/json
 app.use(express.json({ limit: "5mb" }));
@@ -26,6 +45,8 @@ app.get("/", (req, res) => {
 // routes
 require("./app/routes/authRoutes")(app);
 require("./app/routes/userRoutes")(app);
+require("./app/routes/bankMilkRoutes")(app);
+require("./app/routes/donationMilkRoutes")(app);
 
 //all routes, forever declare as last route
 app.get("/*", (req, res) => {
@@ -34,33 +55,34 @@ app.get("/*", (req, res) => {
 });
 
 // database
-/*const Role = db.role;
+// const Role = db.role;
 
 //db.sequelize.sync();
 // force: true will drop the table if it already exists
-db.sequelize.sync({ force: true }).then(() => {
-  console.log('Drop and Resync Database with { force: true }');
-  initial();
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log('Drop and Resync Database with { force: true }');
+//   initial();
+// });
 
-function initial() {
-  Role.create({
-    id: 1,
-    name: "user"
-  });
 
-  Role.create({
-    id: 2,
-    name: "mod"
-  });
+// function initial() {
+//   Role.create({
+//     id: 1,
+//     name: "user"
+//   });
 
-  Role.create({
-    id: 3,
-    name: "admin"
-  });
-}
+//   Role.create({
+//     id: 2,
+//     name: "mod"
+//   });
 
-initial();*/
+//   Role.create({
+//     id: 3,
+//     name: "admin"
+//   });
+// }
+
+//initial();
 
 const port = process.env.PORT || 8080
 app.listen(port, () => {
